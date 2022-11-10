@@ -6,7 +6,10 @@
                     :radius 100
                     :speed 1
                     :tooth-count 12
-                    :x 100
+                    :x -100
                     :y 0}
            :follower {:name :follower
-                      :tooth-count 8}}})
+                      :radius 50
+                      :tooth-count 8
+                      :x 220
+                      :y 0}}})

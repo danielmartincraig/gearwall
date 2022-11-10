@@ -45,12 +45,18 @@
  (fn [{:keys [radius tooth-count x y]} query-vec]
    (gear/gear radius 0 tooth-count x y)))
 
+(re-frame/reg-sub
+ :gears/follower-path
+ :<- [:gears/follower]
+ (fn [{:keys [radius tooth-count x y]} query-vec]
+   (gear/gear radius 0 tooth-count x y)))
 
 (re-frame/reg-sub
  :gears/paths
  :<- [:gears/driver-path]
- (fn [driver-path query-vec]
-   [driver-path]))
+ :<- [:gears/follower-path]
+ (fn [paths query-vec]
+   paths))
 
 (comment
 
