@@ -1,6 +1,7 @@
 (ns gearwall.subs
   (:require
-   [re-frame.core :as re-frame]))
+   [re-frame.core :as re-frame]
+   [gearwall.gear :as gear]))
 
 (defn take-range [coll start stop]
   (take stop (drop start coll)))
@@ -38,11 +39,25 @@
      (take-range motion start-time stop-time)
      )))
 
+(re-frame/reg-sub
+ :gears/driver-path
+ :<- [:gears/driver]
+ (fn [{:keys [radius tooth-count x y]} query-vec]
+   (gear/gear radius 0 tooth-count x y)))
+
+
+(re-frame/reg-sub
+ :gears/paths
+ :<- [:gears/driver-path]
+ (fn [driver-path query-vec]
+   [driver-path]))
+
 (comment
 
   @(re-frame/subscribe [::gears])
   @(re-frame/subscribe [:gears/driver])
   @(re-frame/subscribe [:gears/follower])
   @(re-frame/subscribe [:motion/motion 5 20])
+  @(re-frame/subscribe [:gears/driver-path])
 
   )
